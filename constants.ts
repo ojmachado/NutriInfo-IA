@@ -30,7 +30,8 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     viewRecipe: 'Ver Receita',
     ingredients: 'Ingredientes',
     instructions: 'Modo de Preparo',
-    servings: 'Rendimento'
+    servings: 'Rendimento',
+    saved: 'Salva'
   },
   'en-US': {
     title: 'NutriInfo AI',
@@ -61,7 +62,8 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     viewRecipe: 'View Recipe',
     ingredients: 'Ingredients',
     instructions: 'Instructions',
-    servings: 'Servings'
+    servings: 'Servings',
+    saved: 'Saved'
   }
 };
 

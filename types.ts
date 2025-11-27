@@ -57,6 +57,7 @@ export interface Translation {
   ingredients: string;
   instructions: string;
   servings: string;
+  saved: string;
 }
 
 export interface LanguageContextType {

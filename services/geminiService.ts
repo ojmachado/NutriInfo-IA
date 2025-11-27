@@ -15,8 +15,8 @@ export const fetchNutritionFromGemini = async (
 
   // Determine prompt language context based on user selection
   const langContext = lang === 'pt-BR' 
-    ? "O usuário fala Português. Retorne o nome do alimento, porção e receitas em Português." 
-    : "The user speaks English. Return the food name, serving size, and recipes in English.";
+    ? "O usuário fala Português. Retorne o nome do alimento, porção e receitas (incluindo ingredientes e passo a passo) em Português." 
+    : "The user speaks English. Return the food name, serving size, and recipes (including ingredients and step-by-step instructions) in English.";
 
   const prompt = `
     Analyze the food item: "${query}".
@@ -43,6 +43,9 @@ export const fetchNutritionFromGemini = async (
       - carbs (number, g per serving)
       - fat (number, g per serving)
       - prepTime (string, e.g. "20 min")
+      - servings (string, e.g. "2 people" or "4 servings")
+      - ingredients (array of strings, list of ingredients with quantities)
+      - instructions (array of strings, step-by-step preparation method)
   `;
 
   try {
@@ -76,8 +79,17 @@ export const fetchNutritionFromGemini = async (
                   carbs: { type: Type.NUMBER },
                   fat: { type: Type.NUMBER },
                   prepTime: { type: Type.STRING },
+                  servings: { type: Type.STRING },
+                  ingredients: {
+                    type: Type.ARRAY,
+                    items: { type: Type.STRING }
+                  },
+                  instructions: {
+                    type: Type.ARRAY,
+                    items: { type: Type.STRING }
+                  }
                 },
-                required: ["name", "description", "calories", "protein", "carbs", "fat", "prepTime"]
+                required: ["name", "description", "calories", "protein", "carbs", "fat", "prepTime", "servings", "ingredients", "instructions"]
               }
             }
           },

@@ -6,6 +6,7 @@ import { LanguageSwitch } from './components/LanguageSwitch';
 import { NutritionCard } from './components/NutritionCard';
 import { RecipeCard } from './components/RecipeCard';
 import { FavoritesModal } from './components/FavoritesModal';
+import { RecipeDetailModal } from './components/RecipeDetailModal';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<LanguageCode>('pt-BR');
@@ -17,6 +18,9 @@ const App: React.FC = () => {
   // Favorites State
   const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+
+  // Recipe Details Modal State
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   // Load favorites from local storage on mount
   useEffect(() => {
@@ -72,6 +76,10 @@ const App: React.FC = () => {
 
   const isRecipeFavorite = (recipe: Recipe) => {
     return favorites.some(r => r.name === recipe.name);
+  };
+
+  const handleViewRecipe = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
   };
 
   return (
@@ -196,6 +204,7 @@ const App: React.FC = () => {
                         recipe={recipe}
                         isFavorite={isRecipeFavorite(recipe)}
                         onToggleFavorite={toggleFavorite}
+                        onViewRecipe={handleViewRecipe}
                         t={t}
                       />
                     ))}
@@ -220,7 +229,7 @@ const App: React.FC = () => {
               <div className="p-4">
                 <div className="bg-white w-16 h-16 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-3 text-3xl">📊</div>
                 <h3 className="font-semibold text-slate-800 mb-1">{language === 'pt-BR' ? 'Detalhado' : 'Detailed'}</h3>
-                <p className="text-sm text-slate-500">{language === 'pt-BR' ? 'Macros, calorias e sugestões de receitas.' : 'Macros, calories, and recipe suggestions.'}</p>
+                <p className="text-sm text-slate-500">{language === 'pt-BR' ? 'Macros, calorias, ingredientes e modo de preparo.' : 'Macros, calories, ingredients, and instructions.'}</p>
               </div>
             </div>
           )}
@@ -240,6 +249,15 @@ const App: React.FC = () => {
         onClose={() => setIsFavoritesOpen(false)} 
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
+        onViewRecipe={handleViewRecipe}
+        t={t}
+      />
+
+      {/* Selected Recipe Details Modal */}
+      <RecipeDetailModal
+        isOpen={!!selectedRecipe}
+        onClose={() => setSelectedRecipe(null)}
+        recipe={selectedRecipe}
         t={t}
       />
     </div>

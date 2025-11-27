@@ -7,6 +7,7 @@ interface FavoritesModalProps {
   onClose: () => void;
   favorites: Recipe[];
   onToggleFavorite: (recipe: Recipe) => void;
+  onViewRecipe: (recipe: Recipe) => void;
   t: Translation;
 }
 
@@ -14,7 +15,8 @@ export const FavoritesModal: React.FC<FavoritesModalProps> = ({
   isOpen, 
   onClose, 
   favorites, 
-  onToggleFavorite, 
+  onToggleFavorite,
+  onViewRecipe,
   t 
 }) => {
   if (!isOpen) return null;
@@ -68,6 +70,7 @@ export const FavoritesModal: React.FC<FavoritesModalProps> = ({
                     recipe={recipe}
                     isFavorite={true}
                     onToggleFavorite={onToggleFavorite}
+                    onViewRecipe={onViewRecipe}
                     t={t}
                   />
                 ))}

@@ -26,7 +26,11 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     noFavorites: 'Você ainda não salvou nenhuma receita.',
     prepTime: 'Preparo',
     close: 'Fechar',
-    savedRecipes: 'Receitas'
+    savedRecipes: 'Receitas',
+    viewRecipe: 'Ver Receita',
+    ingredients: 'Ingredientes',
+    instructions: 'Modo de Preparo',
+    servings: 'Rendimento'
   },
   'en-US': {
     title: 'NutriInfo AI',
@@ -53,7 +57,11 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     noFavorites: 'You haven\'t saved any recipes yet.',
     prepTime: 'Prep time',
     close: 'Close',
-    savedRecipes: 'Recipes'
+    savedRecipes: 'Recipes',
+    viewRecipe: 'View Recipe',
+    ingredients: 'Ingredients',
+    instructions: 'Instructions',
+    servings: 'Servings'
   }
 };
 

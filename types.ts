@@ -8,6 +8,9 @@ export interface Recipe {
   carbs: number;
   fat: number;
   prepTime: string;
+  servings: string;
+  ingredients: string[];
+  instructions: string[];
 }
 
 export interface NutritionData {
@@ -50,6 +53,10 @@ export interface Translation {
   prepTime: string;
   close: string;
   savedRecipes: string;
+  viewRecipe: string;
+  ingredients: string;
+  instructions: string;
+  servings: string;
 }
 
 export interface LanguageContextType {

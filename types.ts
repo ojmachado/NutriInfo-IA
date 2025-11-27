@@ -1,5 +1,15 @@
 export type LanguageCode = 'pt-BR' | 'en-US';
 
+export interface Recipe {
+  name: string;
+  description: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  prepTime: string;
+}
+
 export interface NutritionData {
   foodName: string;
   calories: number;
@@ -11,6 +21,7 @@ export interface NutritionData {
   sodium: number;
   servingSize: string;
   emoji?: string;
+  recipes: Recipe[];
 }
 
 export interface Translation {
@@ -31,6 +42,14 @@ export interface Translation {
   servingSize: string;
   macroDistribution: string;
   footer: string;
+  recipesTitle: string;
+  addToFavorites: string;
+  removeFromFavorites: string;
+  favoritesTitle: string;
+  noFavorites: string;
+  prepTime: string;
+  close: string;
+  savedRecipes: string;
 }
 
 export interface LanguageContextType {

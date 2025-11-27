@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { LanguageCode, NutritionData } from './types';
+import React, { useState, useEffect } from 'react';
+import { LanguageCode, NutritionData, Recipe } from './types';
 import { TRANSLATIONS } from './constants';
 import { fetchNutritionFromGemini } from './services/geminiService';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { NutritionCard } from './components/NutritionCard';
+import { RecipeCard } from './components/RecipeCard';
+import { FavoritesModal } from './components/FavoritesModal';
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<LanguageCode>('pt-BR');
@@ -11,6 +13,27 @@ const App: React.FC = () => {
   const [nutritionData, setNutritionData] = useState<NutritionData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Favorites State
+  const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+
+  // Load favorites from local storage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('nutriGeminiFavorites');
+    if (saved) {
+      try {
+        setFavorites(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse favorites", e);
+      }
+    }
+  }, []);
+
+  // Save favorites to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem('nutriGeminiFavorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   const t = TRANSLATIONS[language];
 
@@ -36,6 +59,21 @@ const App: React.FC = () => {
     }
   };
 
+  const toggleFavorite = (recipe: Recipe) => {
+    setFavorites(prev => {
+      const exists = prev.some(r => r.name === recipe.name);
+      if (exists) {
+        return prev.filter(r => r.name !== recipe.name);
+      } else {
+        return [...prev, recipe];
+      }
+    });
+  };
+
+  const isRecipeFavorite = (recipe: Recipe) => {
+    return favorites.some(r => r.name === recipe.name);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-brand-50 flex flex-col">
       {/* Navbar / Header */}
@@ -43,11 +81,29 @@ const App: React.FC = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🥑</span>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-brand-800">
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-brand-800 hidden sm:block">
               {t.title}
             </h1>
           </div>
-          <LanguageSwitch currentLang={language} onToggle={setLanguage} />
+          
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsFavoritesOpen(true)}
+              className="relative p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-full transition-all group"
+              title={t.savedRecipes}
+            >
+              <svg className="w-6 h-6" fill={favorites.length > 0 ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              {favorites.length > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-500 rounded-full">
+                  {favorites.length}
+                </span>
+              )}
+            </button>
+            <div className="h-6 w-px bg-slate-200 mx-1"></div>
+            <LanguageSwitch currentLang={language} onToggle={setLanguage} />
+          </div>
         </div>
       </header>
 
@@ -125,7 +181,28 @@ const App: React.FC = () => {
           )}
 
           {nutritionData && !loading && (
-            <NutritionCard data={nutritionData} t={t} />
+            <div className="space-y-10 animate-fade-in">
+              <NutritionCard data={nutritionData} t={t} />
+              
+              {nutritionData.recipes && nutritionData.recipes.length > 0 && (
+                <div className="pt-4 border-t border-slate-200/60">
+                  <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">
+                    {t.recipesTitle}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {nutritionData.recipes.map((recipe, index) => (
+                      <RecipeCard
+                        key={index}
+                        recipe={recipe}
+                        isFavorite={isRecipeFavorite(recipe)}
+                        onToggleFavorite={toggleFavorite}
+                        t={t}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {!nutritionData && !loading && !error && (
@@ -143,7 +220,7 @@ const App: React.FC = () => {
               <div className="p-4">
                 <div className="bg-white w-16 h-16 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-3 text-3xl">📊</div>
                 <h3 className="font-semibold text-slate-800 mb-1">{language === 'pt-BR' ? 'Detalhado' : 'Detailed'}</h3>
-                <p className="text-sm text-slate-500">{language === 'pt-BR' ? 'Macros, calorias e muito mais.' : 'Macros, calories, and much more.'}</p>
+                <p className="text-sm text-slate-500">{language === 'pt-BR' ? 'Macros, calorias e sugestões de receitas.' : 'Macros, calories, and recipe suggestions.'}</p>
               </div>
             </div>
           )}
@@ -156,6 +233,15 @@ const App: React.FC = () => {
           <p>{t.footer}</p>
         </div>
       </footer>
+
+      {/* Favorites Modal */}
+      <FavoritesModal 
+        isOpen={isFavoritesOpen} 
+        onClose={() => setIsFavoritesOpen(false)} 
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+        t={t}
+      />
     </div>
   );
 };

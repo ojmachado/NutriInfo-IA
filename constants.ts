@@ -6,7 +6,7 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     subtitle: 'Descubra o valor nutricional dos seus alimentos favoritos',
     searchPlaceholder: 'Ex: Maçã, Pão Francês, Arroz com Feijão...',
     searchButton: 'Buscar informações nutricionais',
-    loading: 'Analisando alimento...',
+    loading: 'Analisando alimento e criando receitas...',
     errorGeneric: 'Ops! Não conseguimos encontrar este alimento com precisão. Tente ser mais específico, por exemplo: "Maçã Fuji" ou "Peito de frango grelhado".',
     errorApiKey: 'Chave de API não configurada. Por favor, verifique suas variáveis de ambiente.',
     calories: 'Calorias',
@@ -18,14 +18,22 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     sodium: 'Sódio',
     servingSize: 'Porção',
     macroDistribution: 'Distribuição de Macronutrientes',
-    footer: 'Desenvolvido com Google Gemini'
+    footer: 'Desenvolvido com Google Gemini',
+    recipesTitle: 'Sugestões de Receitas Saudáveis',
+    addToFavorites: 'Salvar Receita',
+    removeFromFavorites: 'Remover dos Favoritos',
+    favoritesTitle: 'Minhas Receitas Salvas',
+    noFavorites: 'Você ainda não salvou nenhuma receita.',
+    prepTime: 'Preparo',
+    close: 'Fechar',
+    savedRecipes: 'Receitas'
   },
   'en-US': {
     title: 'NutriInfo AI',
     subtitle: 'Discover the nutritional value of your favorite foods',
     searchPlaceholder: 'Ex: Apple, Bagel, Rice and Beans...',
     searchButton: 'Search Nutrition Info',
-    loading: 'Analyzing food...',
+    loading: 'Analyzing food and creating recipes...',
     errorGeneric: 'Oops! We couldn\'t find this food precisely. Try being more specific, for example: "Fuji Apple" or "Grilled Chicken Breast".',
     errorApiKey: 'API Key not configured. Please check your environment variables.',
     calories: 'Calories',
@@ -37,7 +45,15 @@ export const TRANSLATIONS: Record<LanguageCode, Translation> = {
     sodium: 'Sodium',
     servingSize: 'Serving Size',
     macroDistribution: 'Macronutrient Distribution',
-    footer: 'Powered by Google Gemini'
+    footer: 'Powered by Google Gemini',
+    recipesTitle: 'Healthy Recipe Suggestions',
+    addToFavorites: 'Save Recipe',
+    removeFromFavorites: 'Remove from Favorites',
+    favoritesTitle: 'My Saved Recipes',
+    noFavorites: 'You haven\'t saved any recipes yet.',
+    prepTime: 'Prep time',
+    close: 'Close',
+    savedRecipes: 'Recipes'
   }
 };
 
@@ -51,5 +67,6 @@ export const MOCK_DATA = {
   sugar: 0,
   sodium: 0,
   servingSize: "100g",
-  emoji: "🍎"
+  emoji: "🍎",
+  recipes: []
 };

@@ -74,10 +74,10 @@ const App: React.FC = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
-                className="w-full px-6 py-4 rounded-full border-2 border-slate-200 shadow-sm text-lg focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all pl-12 bg-white text-slate-900 placeholder:text-slate-400"
+                className="w-full px-6 py-4 rounded-full border-2 border-slate-200 shadow-sm text-lg focus:outline-none focus:border-brand-600 focus:ring-4 focus:ring-brand-200 transition-all pl-12 bg-white text-slate-900 placeholder:text-slate-400"
               />
               <svg 
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 group-focus-within:text-brand-500 transition-colors"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 group-focus-within:text-brand-600 transition-colors"
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -104,13 +104,13 @@ const App: React.FC = () => {
         {/* Content Area */}
         <div className="w-full max-w-4xl">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl text-center max-w-2xl mx-auto mb-8 animate-fade-in">
-              <p className="font-medium flex items-center justify-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="bg-orange-50 border border-orange-200 text-orange-800 px-6 py-4 rounded-xl text-center max-w-2xl mx-auto mb-8 animate-fade-in shadow-sm">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <svg className="w-6 h-6 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                {error}
-              </p>
+                <p className="font-medium text-sm sm:text-base leading-relaxed">{error}</p>
+              </div>
             </div>
           )}
 

@@ -30,6 +30,8 @@ export interface NutritionData {
 export interface Translation {
   title: string;
   subtitle: string;
+  heroTitleStart: string;
+  heroTitleEnd: string;
   searchPlaceholder: string;
   searchButton: string;
   loading: string;
@@ -58,6 +60,13 @@ export interface Translation {
   instructions: string;
   servings: string;
   saved: string;
+  // New Feature Grid & SEO Text
+  featureInstantTitle: string;
+  featureInstantDesc: string;
+  featureAnyFoodTitle: string;
+  featureAnyFoodDesc: string;
+  featureDetailedTitle: string;
+  featureDetailedDesc: string;
 }
 
 export interface LanguageContextType {

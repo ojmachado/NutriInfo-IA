@@ -39,6 +39,22 @@ const App: React.FC = () => {
     localStorage.setItem('nutriGeminiFavorites', JSON.stringify(favorites));
   }, [favorites]);
 
+  // Inject Google AdSense Script
+  useEffect(() => {
+    const adsenseClientId = process.env.ADSENSE_CLIENT_ID;
+    if (adsenseClientId) {
+      // Check if script already exists to avoid duplicates
+      const scriptSrc = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`;
+      if (!document.querySelector(`script[src^="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]`)) {
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+      }
+    }
+  }, []);
+
   const t = TRANSLATIONS[language];
 
   const handleSearch = async (e: React.FormEvent) => {

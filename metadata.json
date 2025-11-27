@@ -1,0 +1,5 @@
+{
+  "name": "NutriGemini",
+  "description": "A bilingual (pt-BR/en-US) nutrition information application powered by Google Gemini AI. Instantly find calorie and macronutrient breakdowns for any food.",
+  "requestFramePermissions": []
+}

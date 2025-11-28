@@ -39,6 +39,62 @@ const App: React.FC = () => {
     localStorage.setItem('nutriGeminiFavorites', JSON.stringify(favorites));
   }, [favorites]);
 
+  // Inject Google Tag Manager
+  useEffect(() => {
+    const gtmId = process.env.GTM_ID;
+    if (gtmId) {
+      // GTM Script (Head)
+      const scriptId = 'gtm-script';
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.text = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${gtmId}');`;
+        document.head.prepend(script);
+      }
+
+      // GTM NoScript (Body)
+      const noscriptId = 'gtm-noscript';
+      if (!document.getElementById(noscriptId)) {
+        const noscript = document.createElement('noscript');
+        noscript.id = noscriptId;
+        noscript.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
+        document.body.prepend(noscript);
+      }
+    }
+  }, []);
+
+  // Inject Google Analytics
+  useEffect(() => {
+    const gaId = process.env.GOOGLE_ANALYTICS_ID;
+    if (gaId) {
+      const scriptId = 'ga-script';
+      if (!document.getElementById(scriptId)) {
+        // Gtag Script
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script);
+
+        // Gtag Config
+        const configScript = document.createElement('script');
+        configScript.id = 'ga-config-script';
+        configScript.text = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${gaId}');
+        `;
+        document.head.appendChild(configScript);
+      }
+    }
+  }, []);
+
   const t = TRANSLATIONS[language];
 
   const handleSearch = async (e: React.FormEvent) => {
